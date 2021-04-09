@@ -1,5 +1,7 @@
 body {
-   background-color: rgb(146, 202, 219) !important;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(34,194,195,1) 100%); 
+
 }
 
 ul {
@@ -12,11 +14,26 @@ hr {
     border: 1px solid rgb(107, 107, 107) !important;
 }
 
-.wrapper {
+.background_grad {
+   
+}
+
+.page_wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+.chat_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+/*     background:rgb(255, 0, 212, .5); */
+    margin-top: 2em;
+    
+
     
 /*     background-color: pink; */
 }
@@ -43,3 +60,30 @@ hr {
     background-color: white;
     filter: drop-shadow(2px 2px 4px #505050);
 }
+
+.footer_custom {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding: .25em;
+}
+
+.drop_shadow_header {
+   filter: drop-shadow(0px -5px 10px black)
+}
+
+.drop_shadow_footer {
+    filter: drop-shadow(0px 10px 10px rgb(0, 0, 0))
+ }
+
+ .drop_shadow_todo {
+    filter: drop-shadow(0px 0px 10px rgb(0, 0, 0, .40))
+ }
+
+ .center_me {
+    display: flex;
+    justify-content: center;
+ }
