@@ -48,7 +48,8 @@ hr {
     border-radius: 15px;
     width: 500px;
     height: 800px;
-    background-color:rgb(31, 185, 212)  
+    background-image: linear-gradient(to bottom right, rgb(31, 185, 212), green);
+    /*background-color:rgb(31, 185, 212)*/
 }
 
 .list_window {
