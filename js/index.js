@@ -36,8 +36,19 @@ class ToDoItem {
         //create list element and content
         let li = document.createElement('li')
         li.id = this._id
-        let textli = document.createTextNode(this._content)
-        li.appendChild(textli)
+        let divItem = document.createElement('div')
+        divItem.className = "divItem"
+        let divCheck = document.createElement('div')
+        divCheck.className = "form-check form-switch"
+        let checkBox = document.createElement('input')
+        checkBox.setAttribute("type", "checkbox")
+        checkBox.className = "form-check-input"
+        divCheck.appendChild(checkBox)
+        divItem.appendChild(divCheck)
+        let divText = document.createElement('div')
+        let textLi = document.createTextNode(this._content)
+        divText.appendChild(textLi)
+        divItem.appendChild(divText)
         //create radion buttons for priority
         // let radio1 = document.createElement('input');
         // radio1.setAttribute("type", "radio");
@@ -70,20 +81,27 @@ class ToDoItem {
         // label4.setAttribute("for", "low")
         // li.append(radio1, label1, 'High', radio2, label2, 'Medium1', radio3, label3, 'Medium2', radio4, label4, 'Low')
         //create edit button
+        let buttonDiv = document.createElement('div')
         let buttonEdit = document.createElement('button')
         buttonEdit.id = 'edit' + this._id
         buttonEdit.className = "btn btn-secondary"
         let textEdit = document.createTextNode('Edit')
         buttonEdit.appendChild(textEdit)
         buttonEdit.id = 'edit' + this._id
-        li.appendChild(buttonEdit)
+        buttonDiv.appendChild(buttonEdit)
+        divItem.appendChild(buttonDiv)
         //create remove button
+        let removeDiv = document.createElement('div')
         let buttonRemove = document.createElement('button')
         buttonRemove.id = 'remove' + this._id
         buttonRemove.className = "btn btn-secondary"
         let textDel = document.createTextNode('Remove')
         buttonRemove.appendChild(textDel)
-        li.appendChild(buttonRemove)
+        removeDiv.appendChild(buttonRemove)
+        divItem.appendChild(removeDiv)
+        li.appendChild(divItem)
+        let bar = document.createElement('hr')
+        li.append(bar)
         // //create empty sublist
         // let subList = document.createElement('ul')
         // subList.id = 'subList' + this._id
@@ -132,6 +150,14 @@ class ToDoItem {
             //     subList.appendChild(subLi)
             //     //need edit and remove functionality for this one, too!!
             // })
+
+            editInput.addEventListener("keyup", event => {
+                // Number 13 is the "Enter" key on the keyboard
+                if (event.key === 'Enter') {
+                    // Trigger the button element with a click
+                    doneButton.click();
+                }
+            });
 
             doneButton.addEventListener('click', () => {
                 this._content = editInput.value
