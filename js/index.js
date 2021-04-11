@@ -1,18 +1,20 @@
 window.addEventListener('load', (event) => {
     let getLocalStorageData = localStorage.getItem("New Todo")
-    if (getLocalStorageData == null) { //if localstorage has no data
+    if (getLocalStorageData === null) { //if localstorage has no data
         toDoItemsArray = [] //create array
         console.log('Array created')
     } else {
         toDoItemsArray = JSON.parse(getLocalStorageData)
         console.log('Array retrieved')
         console.log(toDoItemsArray)
+        console.log(toDoItemsArray.length)
         for (let i = 0; i < toDoItemsArray.length; i++) {
             let retToDo = new ToDoItem(toDoItemsArray[i]._content)
             retToDo._id = toDoItemsArray[i]._id
             retToDo._complete = toDoItemsArray[i]._complete
             toDoItemsArray.splice(i, 1, retToDo)
         }
+        ToDoItem.latestId = toDoItemsArray[toDoItemsArray.length - 1]._id
         console.log(toDoItemsArray)
         toDoItemsArray.forEach(item => item.add())
     }
@@ -29,7 +31,7 @@ window.addEventListener('load', (event) => {
 //class for an ToDoItem
 class ToDoItem {
     constructor(content) {
-        this._id = ToDoItem.incrementId();
+        this._id = ToDoItem.incrementId()
         this._content = content;
         //this._priority = priority;
         //this._createDate = createDate; //date of creation >> new Date().tolocalString
@@ -41,8 +43,10 @@ class ToDoItem {
     static incrementId() {
         if (!this.latestId) {
             this.latestId = 1
+            console.log('latestId ' + this.latestId)
         } else {
             this.latestId++
+            console.log('latestId ' + this.latestId)
         }
         return this.latestId
     }
@@ -262,7 +266,7 @@ buttonAdd.addEventListener('click', () => {
 clearButton.addEventListener('click', () => {
     toDoItemsArray = []
     console.log(toDoItemsArray)
-    localStorage.setItem("New Todo", JSON.stringify(toDoItemsArray))
+    localStorage.removeItem("New Todo")
     let listElements = document.getElementsByTagName('li')
     listElements = [...listElements]
     let listLines = document.getElementsByTagName('hr')
