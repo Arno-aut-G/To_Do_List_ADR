@@ -1,18 +1,40 @@
+window.addEventListener('load', (event) => {
+    let getLocalStorageData = localStorage.getItem("New Todo")
+    if (getLocalStorageData == null) { //if localstorage has no data
+        toDoItemsArray = [] //create array
+        console.log('Array created')
+    } else {
+        toDoItemsArray = JSON.parse(getLocalStorageData)
+        console.log('Array retrieved')
+        console.log(toDoItemsArray)
+        for (let i = 0; i < toDoItemsArray.length; i++) {
+            let retToDo = new ToDoItem(toDoItemsArray[i]._content)
+            retToDo._id = toDoItemsArray[i]._id
+            retToDo._complete = toDoItemsArray[i]._complete
+            toDoItemsArray.splice(i, 1, retToDo)
+        }
+        console.log(toDoItemsArray)
+        toDoItemsArray.forEach(item => item.add())
+    }
+
+})
+
+
 //array that holds the todo items
-let toDoItemsArray = []
+//let toDoItemsArray = []
 
 //TODO: Storage > Name for the list via input by user provides key for storage
 //TODO: Priority buttons: red yellow green
 
 //class for an ToDoItem
 class ToDoItem {
-    constructor(content, priority, createDate) {
+    constructor(content) {
         this._id = ToDoItem.incrementId();
         this._content = content;
-        this._priority = priority;
-        this._createDate = createDate; //date of creation >> new Date().tolocalString
-        this._complete = false; //>>boolean for complete (true) or not complete (false >> default), represent as a button, when you click, value changes (red to green)
-        this._subItems = []
+        //this._priority = priority;
+        //this._createDate = createDate; //date of creation >> new Date().tolocalString
+        this._complete = "false"; //>>boolean for complete (true) or not complete (false >> default), represent as a button, when you click, value changes (red to green)
+        //this._subItems = []
     }
 
     //static method for the individual id of an object of class ToDoItem
@@ -29,26 +51,30 @@ class ToDoItem {
     position: position, //user should be able to move things within the priority div, array +1*/
     add() {
         itemsList.appendChild(this.setUpHTML())
-        this.removeEditFunctionality()
+        this.removeEditCheckFunctionality()
     }
 
     setUpHTML() { //add to html method
         //create list element and content
         let li = document.createElement('li')
         li.id = this._id
-        let divItem = document.createElement('div')
-        divItem.className = "divItem"
+        // let divItem = document.createElement('div')
+        // divItem.className = "container justify-content-around"
+        let divRow = document.createElement('div')
+        divRow.className = "row"
+        //divItem.appendChild(divRow)
         let divCheck = document.createElement('div')
-        divCheck.className = "form-check form-switch"
+        divCheck.className = "col-1 form-check form-switch"
         let checkBox = document.createElement('input')
         checkBox.setAttribute("type", "checkbox")
         checkBox.className = "form-check-input"
         divCheck.appendChild(checkBox)
-        divItem.appendChild(divCheck)
+        divRow.appendChild(divCheck)
         let divText = document.createElement('div')
+        divText.className = "col-6"
         let textLi = document.createTextNode(this._content)
         divText.appendChild(textLi)
-        divItem.appendChild(divText)
+        divRow.appendChild(divText)
         //create radion buttons for priority
         // let radio1 = document.createElement('input');
         // radio1.setAttribute("type", "radio");
@@ -82,6 +108,7 @@ class ToDoItem {
         // li.append(radio1, label1, 'High', radio2, label2, 'Medium1', radio3, label3, 'Medium2', radio4, label4, 'Low')
         //create edit button
         let buttonDiv = document.createElement('div')
+        buttonDiv.className = "col-2"
         let buttonEdit = document.createElement('button')
         buttonEdit.id = 'edit' + this._id
         buttonEdit.className = "btn btn-secondary"
@@ -89,17 +116,18 @@ class ToDoItem {
         buttonEdit.appendChild(textEdit)
         buttonEdit.id = 'edit' + this._id
         buttonDiv.appendChild(buttonEdit)
-        divItem.appendChild(buttonDiv)
+        divRow.appendChild(buttonDiv)
         //create remove button
         let removeDiv = document.createElement('div')
+        removeDiv.className = "col-2"
         let buttonRemove = document.createElement('button')
         buttonRemove.id = 'remove' + this._id
         buttonRemove.className = "btn btn-secondary"
         let textDel = document.createTextNode('Remove')
         buttonRemove.appendChild(textDel)
         removeDiv.appendChild(buttonRemove)
-        divItem.appendChild(removeDiv)
-        li.appendChild(divItem)
+        divRow.appendChild(removeDiv)
+        li.appendChild(divRow)
         let bar = document.createElement('hr')
         li.append(bar)
         // //create empty sublist
@@ -109,13 +137,15 @@ class ToDoItem {
         return li
     }
 
-    removeEditFunctionality() {
+    removeEditCheckFunctionality() {
         let deleteButton = document.getElementById('remove' + this._id)
         let liAdd = document.getElementById(this._id)
         deleteButton.addEventListener('click', () => {
             liAdd.remove()
             toDoItemsArray.splice(toDoItemsArray.findIndex(item => item._id === this._id), 1)
             console.log(toDoItemsArray)
+            localStorage.setItem("New Todo", JSON.stringify(toDoItemsArray))
+            console.log('Removed from local storage')
         })
 
         let editButton = document.getElementById('edit' + this._id)
@@ -124,6 +154,7 @@ class ToDoItem {
             editLi.id = 'edit' + this._id
             let editInput = document.createElement('input')
             editInput.value = this._content
+            editInput.className = "form-control"
             editLi.appendChild(editInput)
             // let subButton = document.createElement('button')
             // subButton.id = 'sub' + this.id
@@ -137,6 +168,8 @@ class ToDoItem {
             doneButton.appendChild(textDone)
             editLi.appendChild(doneButton)
             let parentUl = liAdd.parentNode
+            let bar = document.createElement('hr')
+            editLi.append(bar)
             parentUl.replaceChild(editLi, liAdd)
             // let subList = document.createElement('ul')
             // subList.id = 'subList' + this._id
@@ -161,8 +194,9 @@ class ToDoItem {
 
             doneButton.addEventListener('click', () => {
                 this._content = editInput.value
+                localStorage.setItem("New Todo", JSON.stringify(toDoItemsArray))
                 parentUl.replaceChild(this.setUpHTML(), editLi)
-                this.removeEditFunctionality()
+                this.removeEditCheckFunctionality()
                 console.log(toDoItemsArray)
             })
         })
@@ -185,18 +219,21 @@ class ToDoItem {
 // const toDo = new ToDoItem('bla', 'high', 'now')
 // console.log(toDo._id)
 
-
 //getting the add-button to being able to listen to it
 let buttonAdd = document.getElementById('addButton')
 //getting the input that the user writes into the input-form
 let inputToDo = document.getElementById('input')
 //getting the list
 let itemsList = document.getElementById('itemsList')
+let clearButton = document.getElementById('clearButton')
+
 
 //method for adding
 const addItem = () => {
     const toDoItem = new ToDoItem(inputToDo.value, 'high', new Date())
     toDoItemsArray.push(toDoItem)
+    localStorage.setItem("New Todo", JSON.stringify(toDoItemsArray))
+    console.log('Added to local storage')
     toDoItem.add()
     inputToDo.value = ''
 }
@@ -222,7 +259,21 @@ buttonAdd.addEventListener('click', () => {
     addItem()
 })
 
-
+clearButton.addEventListener('click', () => {
+    toDoItemsArray = []
+    console.log(toDoItemsArray)
+    localStorage.setItem("New Todo", JSON.stringify(toDoItemsArray))
+    let listElements = document.getElementsByTagName('li')
+    listElements = [...listElements]
+    let listLines = document.getElementsByTagName('hr')
+    listLines = [...listLines]
+    for (let i = 0; i < listElements.length; i++) {
+        listElements[i].remove()
+    }
+    for (let i = 0; i < listLines.length; i++) {
+        listLines[i].remove()
+    }
+})
 
 
 

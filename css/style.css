@@ -10,6 +10,8 @@ ul {
 
 }
 
+
+
 hr {
     border: 1px solid rgb(107, 107, 107) !important;
 }
@@ -89,8 +91,3 @@ hr {
     justify-content: center;
  }
 
- .divItem {
-     display: inline-flex;
-     justify-content: space-between;
-     align-items: center;
- }
