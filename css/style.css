@@ -1,0 +1,96 @@
+body {
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(34,194,195,1) 100%); 
+
+}
+
+ul {
+    list-style-type: none;
+    margin-left: -30px;
+
+}
+
+hr {
+    border: 1px solid rgb(107, 107, 107) !important;
+}
+
+.background_grad {
+   
+}
+
+.page_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+/*     background:rgb(255, 0, 212, .5); */
+    margin-top: 2em;
+    
+
+    
+/*     background-color: pink; */
+}
+
+
+.main_window {
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    width: 500px;
+    height: 800px;
+    background-image: linear-gradient(to bottom right, rgb(31, 185, 212), green);
+    /*background-color:rgb(31, 185, 212)*/
+}
+
+.list_window {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    width: 460px;
+    height: 700px;
+    background-color: white;
+    filter: drop-shadow(2px 2px 4px #505050);
+}
+
+.footer_custom {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding: .25em;
+}
+
+.drop_shadow_header {
+   filter: drop-shadow(0px -5px 10px black)
+}
+
+.drop_shadow_footer {
+    filter: drop-shadow(0px 10px 10px rgb(0, 0, 0))
+ }
+
+ .drop_shadow_todo {
+    filter: drop-shadow(0px 0px 10px rgb(0, 0, 0, .40))
+ }
+
+ .center_me {
+    display: flex;
+    justify-content: center;
+ }
+
+ .divItem {
+     display: inline-flex;
+     justify-content: space-between;
+     align-items: center;
+ }
